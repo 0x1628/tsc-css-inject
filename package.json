@@ -1,0 +1,36 @@
+{
+  "name": "tsc-css-inject",
+  "version": "0.0.1",
+  "description": "Inject css to js file when ts built",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "keywords": [
+    "typescript",
+    "css",
+    "tsc",
+    "fragment0"
+  ],
+  "bin": {
+    "tscci": "./bin/tscci"
+  },
+  "author": "fragment0",
+  "license": "MIT",
+  "devDependencies": {
+    "@fragment0/tslint-config": "^0.1.4",
+    "@types/lodash.debounce": "^4.0.4",
+    "@types/less": "^3.0.0",
+    "@types/node": "^10.12.3",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
+  },
+  "dependencies": {
+    "less": "^3.8.1",
+    "lodash.debounce": "^4.0.8"
+  }
+}

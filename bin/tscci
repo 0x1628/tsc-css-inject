@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+const {compile, watchCompile} = require('../lib/index')
+
+let watchMode = false
+if (process.argv.slice(2).some(i => i === '-w' || i === '--watch')) {
+  watchMode = true
+}
+
+if (watchMode) {
+  // tslint:disable-next-line
+  console.log('start watch mode')
+  watchCompile()
+} else {
+  compile()
+}
