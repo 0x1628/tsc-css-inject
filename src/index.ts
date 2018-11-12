@@ -1,18 +1,14 @@
-import * as ts from 'typescript'
 import * as fs from 'fs'
 import * as path from 'path'
 import {exec} from 'child_process'
 import {CSSInject} from './CSSInject'
 import {parse} from './css-processors/less'
+import {getTsc} from './utils'
 // tslint:disable-next-line
 import debounce = require('lodash.debounce')
 
 const base = process.cwd()
-const configPath = ts.findConfigFile(
-  base,
-  ts.sys.fileExists,
-  'tsconfig.json',
-)
+const configPath = path.resolve(process.cwd(), 'tsconfig.json')
 
 if (!configPath) {
   console.error('can\'t find tsconfig.json')
@@ -41,16 +37,28 @@ function findTarget(baseDir: string) {
   return result
 }
 
-export function compile() {
+export function compile(watchMode = false) {
   const targets = findTarget(config.rootDir)
 
   const injections = CSSInject.init(targets, config)
-  exec('tsc -p .', {
+  const tsc = getTsc()
+  if (!tsc) {
+    console.error('can\'t found tsc')
+    process.exit(1)
+  }
+  exec(`${tsc} -p .`, {
     cwd: base,
   }, (err, stdout) => {
     if (err) {
-      console.error(err)
-      process.exit(1)
+      console.error(stdout)
+      if (watchMode) {
+        // tslint:disable-next-line
+        console.log('waiting for change')
+        return
+      } else {
+        console.error(err)
+        process.exit(1)
+      }
     }
     Promise.all(injections.map(item => item.write()))
       .then(() => {
@@ -61,12 +69,12 @@ export function compile() {
 }
 
 export function watchCompile() {
-  compile()
+  compile(true)
   fs.watch(config.rootDir, {
     recursive: true,
   }, debounce(() => {
     // tslint:disable-next-line
     console.log('recompile')
-    compile()
+    compile(true)
   }, 100))
 }

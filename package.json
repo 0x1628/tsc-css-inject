@@ -1,9 +1,11 @@
 {
   "name": "tsc-css-inject",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Inject css to js file when ts built",
   "main": "lib/index.js",
   "scripts": {
+    "build": "tsc -p .",
+    "dev": "tsc -p . -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
