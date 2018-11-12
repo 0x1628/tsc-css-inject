@@ -1,6 +1,6 @@
 {
   "name": "tsc-css-inject",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Inject css to js file when ts built",
   "main": "lib/index.js",
   "scripts": {
